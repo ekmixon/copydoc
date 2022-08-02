@@ -199,21 +199,28 @@ class CopyDoc:
         Parse attribute. Delegate to href parser for hrefs, otherwise return
         value.
         """
-        if tagname == 'a' and attr == 'href':
-            return self._parse_href(value)
-        else:
-            return value
+        return self._parse_href(value) if tagname == 'a' and attr == 'href' else value
 
     def __unicode__(self):
-        if not self.soup.body:
-            return ''
-        else:
-            return ''.join([unicode(self.clean_linebreaks(tag))
-                            for tag in self.soup.body.children])
+        return (
+            ''.join(
+                [
+                    unicode(self.clean_linebreaks(tag))
+                    for tag in self.soup.body.children
+                ]
+            )
+            if self.soup.body
+            else ''
+        )
 
     def __str__(self):
-        if not self.soup.body:
-            return ''
-        else:
-            return ''.join([str(self.clean_linebreaks(tag))
-                            for tag in self.soup.body.children])
+        return (
+            ''.join(
+                [
+                    str(self.clean_linebreaks(tag))
+                    for tag in self.soup.body.children
+                ]
+            )
+            if self.soup.body
+            else ''
+        )
